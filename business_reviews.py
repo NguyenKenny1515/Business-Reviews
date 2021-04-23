@@ -250,12 +250,35 @@ def view_business_reviews_prompt(db):
 
 # Query 12: View a business's reviews
 def view_all_business_reviews(db, business_id):
-    pass
+    review = db.review.find({"business_id": business_id})
+    if review:
+        reviewer = get_user(db, review["user_id"])
+        business = get_business(db, business_id)
+        print(f"review_id: {review['review_id']}"
+              f"Business: {business['name']} ({business_id})"
+              f"Reviewer: {reviewer['name']} ({reviewer['user_id']})"
+              f"Useful: {review['useful']} votes"
+              f"Date: {review['date']}"
+              f"Review: {review['text']}")
+    else:
+        print("No reviews found. Try a different search!")
 
 
 # Query 13: View most useful review of a business
 def view_most_useful_business_review(db, business_id):
-    pass
+    review = db.review.find({"business_id": business_id}).sort("useful",
+                                                               -1).limit(1)
+    if review:
+        reviewer = get_user(db, review["user_id"])
+        business = get_business(db, business_id)
+        print(f"review_id: {review['review_id']}"
+              f"Business: {business['name']} ({business_id})"
+              f"Reviewer: {reviewer['name']} ({reviewer['user_id']})"
+              f"Useful: {review['useful']} votes"
+              f"Date: {review['date']}"
+              f"Review: {review['text']}")
+    else:
+        print("No reviews found. Try a different search!")
 
 
 # Query 14: View funniest review of a business
@@ -322,17 +345,30 @@ def view_prompt(db, user_id):
 
 # Query 11: View your account profile
 def view_user_profile(db, user_id):
-    pass
+    user = db.user.find_one({"user_id": user_id})
+    print(f"User: {user['name']} ({user['user_id']})"
+          f"User Since: {user['yelping_since']}"
+          f"Number of Reviews: {user['review_count']}")
+          f"Number of Useful Reviews: {user['useful']}")
+          f"Number of Funny Reviews: {user['funny']}")
+          f"Number of Cool Reviews: {user['cool']}")
+          f"Number of Fans: {user['fans']}")
+          f"Average Rating of All Reviews: {user['average_stars']}")
 
 
 # Query 8: View top 10 businesses
 def view_top_rated_businesses(db):
-    pass
+    business = db.business.find("stars": {"$gte": 4.5}).sort("review_count", -1).limit(10)
+    print(f"Business: {business['name']} ({business['business_id']})"
+          f"Stars: {business['stars']}")
+          f"Number of Reviews: {business['review_count']}")
 
 
 # Query 9: View most reviewed businesses
 def view_most_rated_businesses(db):
-    pass
+   business = db.business.find().sort("review_count", -1).limit(1)
+   print(f"Business: {business['name']} ({business['business_id']})"
+          f"Number of Reviews: {business['review_count']}")
 
 
 # Query 16: View user with the most reviews
@@ -381,7 +417,18 @@ def user_reviews_prompt(db, user_id):
 
 # Query 10: View all reviews made by your account
 def view_user_reviews(db, user_id):
-    pass
+    review = db.review.find({"user_id": user_id})
+    if review:
+        reviewer = get_user(db, review["user_id"])
+        business = get_business(db, business_id)
+        print(f"review_id: {review['review_id']}"
+              f"Business: {business['name']} ({business_id})"
+              f"Reviewer: {reviewer['name']} ({reviewer['user_id']})"
+              f"Useful: {review['useful']} votes"
+              f"Date: {review['date']}"
+              f"Review: {review['text']}")
+    else:
+        print("No reviews found. Try a different search!")
 
 
 # Query 18: Create a review for a business
