@@ -126,12 +126,14 @@ def search_business_prompt(db, user_id):
 def search_business_by_city_state(db, user_id):
     city = input("Enter a city: ")
     state = input("Enter a state: ")
+    db.business.find({"city":city,"state":state})
     search_business_by_attributes_prompt(db, user_id, city=city, state=state)
 
 
 # Query 3: Search for business by zip code
 def search_business_by_zipcode(db, user_id):
     zipcode = input("Enter a zipcode: ")
+    db.business.find({"zipcode":zipcode})
     search_business_by_attributes_prompt(db, user_id, zipcode=zipcode)
 
 
@@ -162,9 +164,11 @@ def search_business_by_name(db, user_id, **kwargs):
     name = input("Enter a name: ")
     if "city" in kwargs.keys() and "state" in kwargs.keys():
         # Make query filters that involve city and state fields
+        db.business.find({"name":name,"city":kwargs.get("city"),"state";kwargs.get("state")})
         pass
     else:
         # Make query filters that involve zipcode field
+        db.business.find({"name":name,kwargs.get("zipcode")})
         pass
     view_or_create_reviews_prompt(db, user_id)
 
@@ -174,9 +178,11 @@ def search_business_by_category(db, user_id, **kwargs):
     category = input("Enter a category: ")
     if "city" in kwargs.keys() and "state" in kwargs.keys():
         # Make query filters that involve city and state fields
+         db.business.find({"category":category,"city":kwargs.get("city"),"state":kwargs.get("state")})
         pass
     else:
         # Make query filters that involve zipcode field
+        db.business.find({"category":category,"zipcode":kwargs.get("zipcode")})
         pass
     view_or_create_reviews_prompt(db, user_id)
 
@@ -186,9 +192,11 @@ def search_business_by_rating(db, user_id, **kwargs):
     rating = int(input("Enter a rating: "))
     if "city" in kwargs.keys() and "state" in kwargs.keys():
         # Make query filters that involve city and state fields
+        db.business.find({"rating":rating,"city":kwargs.get("city"),"state":kwargs.get("state")})
         pass
     else:
         # Make query filters that involve zipcode field
+        db.business.find({"rating":rating,"zipcode":kwargs.get("zipcode")})
         pass
     view_or_create_reviews_prompt(db, user_id)
 
@@ -196,6 +204,7 @@ def search_business_by_rating(db, user_id, **kwargs):
 # Query 7: Search for users
 def search_users(db):
     name = input("Enter a name: ")
+    db.users.find({"name":name})
 
 
 def view_or_create_reviews_prompt(db, user_id):
